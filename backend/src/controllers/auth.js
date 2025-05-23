@@ -112,4 +112,34 @@ exports.login = async (req, res) => {
   }
 };
 
+/**
+ * Get current user profile
+ * @route GET /api/auth/profile
+ * @access Private
+ */
+exports.getProfile = async (req, res) => {
+  try {
+    // User is already attached to req by the auth middleware
+    const user = await User.findById(req.user._id)
+      .select("-password")
+      .populate("enrolledCourses", "title description")
+      .populate("createdCourses", "title description");
 
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    console.error("Get profile error:", error);
+    res.status(500).json({
+      message: "Server error while fetching profile",
+      error: config.nodeEnv === "development" ? error.message : undefined,
+    });
+  }
+};
