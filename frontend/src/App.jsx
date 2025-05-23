@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import CoursesList from "./pages/CoursesList";
+import CourseDetails from "./pages/CourseDetails";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -38,7 +39,9 @@ function App() {
               />
 
               <Route path="/courses" element={<CoursesList />} />
+              <Route path="/courses/:id" element={<CourseDetails />} />
 
+              {/* Private routes */}
               <Route
                 path="/dashboard"
                 element={
