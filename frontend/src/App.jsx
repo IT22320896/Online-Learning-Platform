@@ -8,6 +8,9 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import CoursesList from "./pages/CoursesList";
 import CourseDetails from "./pages/CourseDetails";
+import InstructorDashboard from "./pages/InstructorDashboard";
+import CreateCourse from "./pages/CreateCourse";
+import EditCourse from "./pages/EditCourse";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -62,6 +65,9 @@ function App() {
                   </PrivateRoute>
                 }
               />
+
+              {/* 404 Not Found */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />
