@@ -16,7 +16,6 @@ A full-stack MERN application for an online learning platform with GPT-powered c
 ### Instructor Features
 
 - Create and manage courses
-- Upload course content and materials
 - View enrolled students
 - Edit course details
 
@@ -41,7 +40,7 @@ A full-stack MERN application for an online learning platform with GPT-powered c
 ### Backend
 
 - Node.js and Express
-- MongoDB with Mongoose ORM
+- MongoDB
 - JWT for authentication
 - bcrypt for password hashing
 - OpenAI API for GPT integration
@@ -51,7 +50,6 @@ A full-stack MERN application for an online learning platform with GPT-powered c
 ### Prerequisites
 
 - Node.js (v14 or higher)
-- npm or yarn
 - MongoDB (local or Atlas)
 - OpenAI API key
 
@@ -60,8 +58,8 @@ A full-stack MERN application for an online learning platform with GPT-powered c
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/online-learning-platform.git
-   cd online-learning-platform
+   git clone https://github.com/IT22320896/Online-Learning-Platform.git
+   cd Online-Learning-Platform
    ```
 
 2. Install backend dependencies:
@@ -135,11 +133,6 @@ A full-stack MERN application for an online learning platform with GPT-powered c
 - `GET /api/courses/instructor/my-courses` - Get instructor's courses
 - `GET /api/courses/:id/students` - Get enrolled students for a course
 
-### User Endpoints
-
-- `GET /api/users/courses` - Get enrolled courses for current user
-- `GET /api/users` - Get all users (admin only)
-
 ### GPT Endpoints
 
 - `POST /api/gpt/recommendations` - Get course recommendations
@@ -188,10 +181,6 @@ A full-stack MERN application for an online learning platform with GPT-powered c
 - `errorMessage` (String)
 - `timestamps` (createdAt, updatedAt)
 
-## 📝 License
-
-This project is licensed under the MIT License.
-
 ## 🙏 Acknowledgements
 
 - [OpenAI](https://openai.com/) for GPT API
@@ -200,102 +189,3 @@ This project is licensed under the MIT License.
 - [React](https://reactjs.org/) for frontend library
 - [Node.js](https://nodejs.org/) for JavaScript runtime
 - [Tailwind CSS](https://tailwindcss.com/) for styling
-
-## Setup Instructions
-
-### Backend Setup
-
-1. Navigate to the backend directory
-
-   ```
-   cd backend
-   ```
-
-2. Install dependencies
-
-   ```
-   npm install
-   ```
-
-3. Create a .env file (copy from .env.example)
-
-   ```
-   cp .env.example .env
-   ```
-
-4. Update your .env file with your MongoDB URI, JWT secret, and Cloudinary credentials
-
-   ```
-   PORT=5000
-   MONGODB_URI=your_mongodb_uri
-   JWT_SECRET=your_jwt_secret
-   NODE_ENV=development
-   OPENAI_API_KEY=your_openai_api_key
-
-   # Cloudinary credentials
-   CLOUDINARY_CLOUD_NAME=your_cloud_name
-   CLOUDINARY_API_KEY=your_api_key
-   CLOUDINARY_API_SECRET=your_api_secret
-   ```
-
-5. Create the uploads directory
-
-   ```
-   mkdir uploads
-   ```
-
-6. Start the backend server
-   ```
-   npm run dev
-   ```
-
-### Frontend Setup
-
-1. Navigate to the frontend directory
-
-   ```
-   cd frontend
-   ```
-
-2. Install dependencies
-
-   ```
-   npm install
-   ```
-
-3. Create a .env file (if not exists)
-
-   ```
-   touch .env
-   ```
-
-4. Add the API URL to your .env file
-
-   ```
-   VITE_API_URL=http://localhost:5000/api
-   ```
-
-5. Start the frontend development server
-   ```
-   npm run dev
-   ```
-
-## Setting up Cloudinary
-
-1. Sign up for a free Cloudinary account at [https://cloudinary.com/users/register/free](https://cloudinary.com/users/register/free)
-2. After signing up, go to your Cloudinary Dashboard
-3. Copy your Cloud name, API Key, and API Secret
-4. Add these credentials to your backend `.env` file:
-   ```
-   CLOUDINARY_CLOUD_NAME=your_cloud_name
-   CLOUDINARY_API_KEY=your_api_key
-   CLOUDINARY_API_SECRET=your_api_secret
-   ```
-
-## Features
-
-- User authentication (login/register)
-- Course creation and management
-- Course enrollment
-- Course thumbnail image upload via Cloudinary
-- And more...
