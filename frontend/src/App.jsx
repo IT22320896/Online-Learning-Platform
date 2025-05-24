@@ -32,7 +32,6 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
 
-              {/* Guest routes - redirect to dashboard if already logged in */}
               <Route
                 path="/login"
                 element={
