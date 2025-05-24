@@ -23,7 +23,6 @@ const AdminDashboard = () => {
     gptUsage: {
       totalTokens: 0,
       requestCount: 0,
-      costEstimate: 0,
     },
   });
 
@@ -53,11 +52,6 @@ const AdminDashboard = () => {
         const courses = coursesResponse.data.data;
         const publishedCourses = courses.filter((course) => course.isPublished);
 
-        // Calculate GPT cost estimate (based on current OpenAI pricing)
-        // $0.0015 per 1000 tokens for gpt-3.5-turbo
-        const costEstimate =
-          (gptStatsResponse.data.data.totalTokens / 1000) * 0.0015;
-
         setStats({
           courses: {
             total: courses.length,
@@ -72,7 +66,6 @@ const AdminDashboard = () => {
           gptUsage: {
             totalTokens: gptStatsResponse.data.data.totalTokens,
             requestCount: gptStatsResponse.data.data.requestCount,
-            costEstimate: costEstimate.toFixed(2),
           },
         });
 
@@ -251,12 +244,6 @@ const AdminDashboard = () => {
                   </span>{" "}
                   Requests
                 </div>
-                <div>
-                  <span className="text-gray-500 font-medium">
-                    ${stats.gptUsage.costEstimate}
-                  </span>{" "}
-                  Est. Cost
-                </div>
               </div>
             </div>
           </div>
@@ -329,50 +316,6 @@ const AdminDashboard = () => {
                   </svg>
                   View All Courses
                 </Link>
-              </li>
-              <li>
-                <button
-                  className="w-full flex items-center p-3 bg-purple-50 rounded-md hover:bg-purple-100 transition-colors"
-                  onClick={() => alert("Feature coming soon!")}
-                >
-                  <svg
-                    className="w-5 h-5 text-purple-600 mr-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                    ></path>
-                  </svg>
-                  Manage Users
-                </button>
-              </li>
-              <li>
-                <button
-                  className="w-full flex items-center p-3 bg-green-50 rounded-md hover:bg-green-100 transition-colors"
-                  onClick={() => alert("Feature coming soon!")}
-                >
-                  <svg
-                    className="w-5 h-5 text-green-600 mr-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    ></path>
-                  </svg>
-                  Generate Reports
-                </button>
               </li>
             </ul>
           </div>
