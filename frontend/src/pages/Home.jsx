@@ -27,7 +27,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="animate-fadeIn min-h-screen">=
+    <div className="animate-fadeIn min-h-screen">
       <section className="bg-gradient-to-r from-blue-800 to-indigo-800 py-20 px-4 text-white text-center">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
