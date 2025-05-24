@@ -1,6 +1,7 @@
 const { OpenAI } = require("openai");
 const config = require("../config/config");
 const ApiLog = require("../models/ApiLog");
+const Course = require("../models/Course");
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -24,13 +25,45 @@ exports.getCourseRecommendations = async (prompt, userId) => {
       throw new Error("OpenAI API key is not configured");
     }
 
+    // Fetch all available courses from the database
+    const availableCourses = await Course.find({ isPublished: true }).select(
+      "title description category level _id"
+    );
+
+    if (availableCourses.length === 0) {
+      return {
+        recommendations: "No courses are currently available on the platform.",
+        tokensUsed: 0,
+      };
+    }
+
+    // Format courses for the prompt
+    const coursesList = availableCourses
+      .map((course, index) => {
+        return `${index + 1}. ${course.title} (ID: ${
+          course._id
+        }) - ${course.description.substring(0, 100)}... | Level: ${
+          course.level
+        } | Category: ${course.category}`;
+      })
+      .join("\n");
+
     // Define system message to set context for the GPT model
     const systemMessage = {
       role: "system",
       content: `You are a helpful course recommendation assistant for an online learning platform. 
-                Your task is to suggest relevant courses based on the user's learning goals or interests.
-                Provide course titles, a brief description for each, and the difficulty level.
-                Return exactly 3-5 course recommendations.`,
+                Your task is to suggest 3-5 relevant courses from our platform based on the user's learning goals or interests.
+                IMPORTANT: You must ONLY recommend courses from the following list of available courses:
+                
+                ${coursesList}
+                
+                For each recommendation, include:
+                1. The exact course title
+                2. The course ID in parentheses (ID: xxxx)
+                3. A brief explanation of why you're recommending it based on the user's request
+                4. The difficulty level
+                
+                Format your response as a numbered list. If the user's interests don't match any available courses, suggest the closest matches and explain why they might still be valuable.`,
     };
 
     // User's message
@@ -43,7 +76,7 @@ exports.getCourseRecommendations = async (prompt, userId) => {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [systemMessage, userMessage],
-      max_tokens: 500,
+      max_tokens: 800,
       temperature: 0.7,
     });
 

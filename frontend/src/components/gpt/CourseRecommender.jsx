@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
@@ -50,6 +51,84 @@ const CourseRecommender = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Function to parse recommendations and generate links for course IDs
+  const renderRecommendations = () => {
+    if (!recommendations) return null;
+
+    // Regular expression to find course IDs in the format (ID: 609d12e465e2cd001f3b2a03)
+    const courseIdRegex = /\(ID: ([a-f0-9]{24})\)/g;
+
+    // Split by newlines to maintain formatting
+    const lines = recommendations.split("\n");
+
+    return lines.map((line, index) => {
+      // Replace course IDs with links
+      let processedLine = line;
+      let match;
+      let positions = [];
+
+      // Find all matches and their positions
+      while ((match = courseIdRegex.exec(line)) !== null) {
+        positions.push({
+          start: match.index,
+          end: match.index + match[0].length,
+          id: match[1],
+          fullMatch: match[0],
+        });
+      }
+
+      // If there are matches, create a line with links
+      if (positions.length > 0) {
+        // Process the line with links
+        let result = [];
+        let lastIndex = 0;
+
+        positions.forEach((pos) => {
+          // Add text before the ID
+          result.push(line.substring(lastIndex, pos.start));
+
+          // Extract course title - look for text before the ID match
+          const titleMatch = line
+            .substring(0, pos.start)
+            .match(/\d+\.\s+(.+?)(?=\s+\(ID:)/);
+          const courseTitle = titleMatch ? titleMatch[1].trim() : "View Course";
+
+          // Add link component
+          result.push(
+            <Link
+              key={pos.id}
+              to={`/courses/${pos.id}`}
+              className="text-blue-600 hover:text-blue-800 font-medium"
+              title={`View ${courseTitle}`}
+            >
+              {pos.fullMatch}
+            </Link>
+          );
+
+          lastIndex = pos.end;
+        });
+
+        // Add remaining text
+        if (lastIndex < line.length) {
+          result.push(line.substring(lastIndex));
+        }
+
+        return (
+          <p key={index} className={line.trim() === "" ? "my-4" : "my-2"}>
+            {result}
+          </p>
+        );
+      }
+
+      // Return regular line if no course IDs found
+      return (
+        <p key={index} className={line.trim() === "" ? "my-4" : "my-2"}>
+          {line}
+        </p>
+      );
+    });
   };
 
   return (
@@ -129,12 +208,12 @@ const CourseRecommender = () => {
             </span>
           </div>
           <div className="p-4 bg-gray-50 rounded-lg">
-            <div className="prose max-w-none">
-              {recommendations.split("\n").map((line, index) => (
-                <p key={index} className={line.trim() === "" ? "my-4" : ""}>
-                  {line}
-                </p>
-              ))}
+            <div className="prose max-w-none">{renderRecommendations()}</div>
+            <div className="mt-4 text-sm text-gray-600">
+              <p>
+                <strong>Note:</strong> Click on any course ID to view the course
+                details.
+              </p>
             </div>
           </div>
         </div>
