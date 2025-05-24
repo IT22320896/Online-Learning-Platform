@@ -115,16 +115,35 @@ const CourseRecommender = () => {
           result.push(line.substring(lastIndex));
         }
 
+        // If this is a numbered item, make it more prominent
+        if (line.match(/^\d+\./)) {
+          return (
+            <div key={index} className="mb-4">
+              <p className="font-semibold">{result}</p>
+            </div>
+          );
+        }
+
         return (
-          <p key={index} className={line.trim() === "" ? "my-4" : "my-2"}>
+          <p key={index} className="my-2">
             {result}
           </p>
         );
       }
 
       // Return regular line if no course IDs found
+      // Give empty lines proper spacing
+      if (line.trim() === "") {
+        return <div key={index} className="my-2"></div>;
+      }
+
+      // For regular text lines, indent them slightly if they're part of a course description
+      const isPartOfCourseDesc =
+        index > 0 && lines[index - 1].match(/^\d+\./) !== null;
+      const className = isPartOfCourseDesc ? "ml-4 text-gray-700" : "my-2";
+
       return (
-        <p key={index} className={line.trim() === "" ? "my-4" : "my-2"}>
+        <p key={index} className={className}>
           {line}
         </p>
       );
@@ -212,7 +231,8 @@ const CourseRecommender = () => {
             <div className="mt-4 text-sm text-gray-600">
               <p>
                 <strong>Note:</strong> Click on any course ID to view the course
-                details.
+                details. Each recommendation includes a course description and
+                why it's directly relevant to your learning interests.
               </p>
             </div>
           </div>
