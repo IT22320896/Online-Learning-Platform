@@ -66,7 +66,7 @@ const Navbar = () => {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden focus:outline-none focus:ring-2 focus:ring-blue-300 rounded p-1 transition-transform duration-300 hover:scale-110"
+            className="md:hidden focus:outline-none text-blue-500 focus:ring-2 focus:ring-blue-300 rounded p-1 transition-transform duration-300 hover:scale-110"
             onClick={toggleMobileMenu}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
@@ -126,7 +126,7 @@ const Navbar = () => {
                     aria-expanded={dropdownOpen}
                     aria-haspopup="true"
                   >
-                    <span className="mr-1 text-white">{user?.name}</span>
+                    <span className="mr-1 text-blue-500">{user?.name}</span>
                     <svg
                       className={`w-4 h-4 fill-current text-white transition-transform duration-300 ${
                         dropdownOpen ? "rotate-180" : ""
@@ -278,7 +278,7 @@ const Navbar = () => {
                     >
                       <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4a1 1 0 011-1h4z" />
                     </svg>
-                    Dashboard
+                    Profile
                   </div>
                 </MobileNavLink>
                 <button
@@ -286,7 +286,7 @@ const Navbar = () => {
                     handleLogout();
                     toggleMobileMenu();
                   }}
-                  className="flex items-center w-full text-left py-3 hover:text-blue-200 hover:bg-blue-700/30 px-3 rounded-md transition-all duration-200"
+                  className="flex items-center text-blue-500 w-full text-left py-3 hover:text-blue-200 hover:bg-blue-700/30 px-3 rounded-md transition-all duration-200"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

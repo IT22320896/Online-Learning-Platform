@@ -9,7 +9,8 @@ const config = require("../config/config");
  */
 exports.getAllCourses = async (req, res) => {
   try {
-    const { category, level, search } = req.query;
+    const { category, level, search, page = 1, limit = 12 } = req.query;
+    console.log("Search query received:", { category, level, search });
 
     // Build query object
     const query = {};
@@ -22,21 +23,49 @@ exports.getAllCourses = async (req, res) => {
       query.level = level;
     }
 
-    if (search) {
+    if (search && search.trim() !== "") {
+      // Use MongoDB text search for full text search capability
       query.$text = { $search: search };
+    } else if (search && search.trim() !== "") {
+      // Fallback to regex search if text search fails
+      const searchRegex = new RegExp(search.trim(), "i");
+      query.$or = [
+        { title: searchRegex },
+        { description: searchRegex },
+        { category: searchRegex },
+        { tags: searchRegex },
+      ];
     }
 
     // Only return published courses
     query.isPublished = true;
 
+    console.log("Final query:", JSON.stringify(query));
+
+    // Calculate pagination
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    // Count total documents for pagination
+    const total = await Course.countDocuments(query);
+    const totalPages = Math.ceil(total / parseInt(limit));
+
+    // Execute query with pagination
     const courses = await Course.find(query)
       .populate("instructor", "name email")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit));
+
+    console.log(`Found ${courses.length} courses`);
 
     res.status(200).json({
       success: true,
       count: courses.length,
       data: courses,
+      total,
+      totalPages,
+      page: parseInt(page),
+      limit: parseInt(limit),
     });
   } catch (error) {
     console.error("Get all courses error:", error);

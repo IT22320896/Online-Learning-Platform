@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
+import ImageUploader from "../components/common/ImageUploader";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
@@ -116,6 +117,7 @@ const EditCourse = () => {
 
       setSuccess("Course updated successfully!");
       setSaving(false);
+      navigate(`/instructor/dashboard`);
     } catch (error) {
       console.error("Error updating course:", error);
       setError(
@@ -152,6 +154,13 @@ const EditCourse = () => {
           "Failed to delete course. Please try again."
       );
     }
+  };
+
+  const handleImageUpload = (imageUrl) => {
+    setFormData({
+      ...formData,
+      thumbnail: imageUrl,
+    });
   };
 
   if (loading) {
@@ -407,16 +416,11 @@ const EditCourse = () => {
                 htmlFor="thumbnail"
                 className="block text-gray-700 font-medium mb-2"
               >
-                Thumbnail URL
+                Course Thumbnail
               </label>
-              <input
-                type="url"
-                id="thumbnail"
-                name="thumbnail"
-                value={formData.thumbnail}
-                onChange={handleChange}
-                className="form-input"
-                placeholder="https://example.com/image.jpg"
+              <ImageUploader
+                onImageUpload={handleImageUpload}
+                currentImage={formData.thumbnail}
               />
             </div>
           </div>

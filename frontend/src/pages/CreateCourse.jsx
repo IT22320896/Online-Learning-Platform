@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
+import ImageUploader from "../components/common/ImageUploader";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
@@ -58,12 +59,23 @@ const CreateCourse = () => {
     }
   };
 
+  const handleImageUpload = (imageUrl) => {
+    console.log("Image URL received in CreateCourse:", imageUrl);
+    setFormData({
+      ...formData,
+      thumbnail: imageUrl,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
+      console.log("Submitting course with data:", formData);
+      console.log("Thumbnail URL being sent:", formData.thumbnail);
+
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -73,13 +85,14 @@ const CreateCourse = () => {
 
       const response = await axios.post(`${API_URL}/courses`, formData, config);
 
-      navigate(`/instructor/edit-course/${response.data.data._id}`);
+      navigate(`/instructor/dashboard`);
     } catch (error) {
-      console.error("Error creating course:", error);
+      console.error("Create course error:", error);
       setError(
         error.response?.data?.message ||
-          "Failed to create course. Please try again."
+          "Error creating course. Please try again."
       );
+    } finally {
       setLoading(false);
     }
   };
@@ -281,16 +294,11 @@ const CreateCourse = () => {
                 htmlFor="thumbnail"
                 className="block text-gray-700 font-medium mb-2"
               >
-                Thumbnail URL
+                Course Thumbnail
               </label>
-              <input
-                type="url"
-                id="thumbnail"
-                name="thumbnail"
-                value={formData.thumbnail}
-                onChange={handleChange}
-                className="form-input"
-                placeholder="https://example.com/image.jpg"
+              <ImageUploader
+                onImageUpload={handleImageUpload}
+                currentImage={formData.thumbnail}
               />
             </div>
           </div>

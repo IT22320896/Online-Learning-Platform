@@ -97,13 +97,24 @@ courseSchema.virtual("enrolledCount").get(function () {
   return this.enrolled.length;
 });
 
-// Add index for searching
-courseSchema.index({
-  title: "text",
-  description: "text",
-  category: "text",
-  tags: "text",
-});
+// Add index for searching - ensure this index is created
+courseSchema.index(
+  {
+    title: "text",
+    description: "text",
+    category: "text",
+    tags: "text",
+  },
+  {
+    weights: {
+      title: 10,
+      description: 5,
+      category: 3,
+      tags: 3,
+    },
+    name: "course_text_index",
+  }
+);
 
 const Course = mongoose.model("Course", courseSchema);
 

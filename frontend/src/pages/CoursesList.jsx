@@ -18,6 +18,9 @@ const CoursesList = () => {
   const [category, setCategory] = useState(queryParams.get("category") || "");
   const [level, setLevel] = useState(queryParams.get("level") || "");
   const [search, setSearch] = useState(queryParams.get("search") || "");
+  const [searchInput, setSearchInput] = useState(
+    queryParams.get("search") || ""
+  );
 
   // Pagination
   const [page, setPage] = useState(1);
@@ -35,10 +38,12 @@ const CoursesList = () => {
         if (search) params.append("search", search);
         params.append("page", page);
 
+        console.log("Fetching courses with params:", params.toString());
         const response = await axios.get(
           `${API_URL}/courses?${params.toString()}`
         );
 
+        console.log("Courses received:", response.data);
         setCourses(response.data.data);
         setTotalPages(response.data.totalPages || 1);
         setLoading(false);
@@ -61,6 +66,7 @@ const CoursesList = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setSearch(searchInput);
     setPage(1);
   };
 
@@ -68,6 +74,7 @@ const CoursesList = () => {
     setCategory("");
     setLevel("");
     setSearch("");
+    setSearchInput("");
     setPage(1);
   };
 
@@ -92,8 +99,8 @@ const CoursesList = () => {
                 type="text"
                 placeholder="Search for courses..."
                 className="form-input w-full"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
               />
             </div>
             <button type="submit" className="btn-primary md:w-auto">

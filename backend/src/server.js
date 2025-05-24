@@ -13,6 +13,7 @@ const authRoutes = require("./routes/auth");
 const courseRoutes = require("./routes/courses");
 const userRoutes = require("./routes/users");
 const gptRoutes = require("./routes/gpt");
+const uploadRoutes = require("./routes/uploads");
 
 // Initialize app
 const app = express();
@@ -22,12 +23,14 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/gpt", gptRoutes);
+app.use("/api/uploads", uploadRoutes);
 
 // Root route
 app.get("/", (req, res) => {
