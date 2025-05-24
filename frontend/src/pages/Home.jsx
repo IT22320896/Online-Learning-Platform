@@ -32,7 +32,7 @@ const Home = () => {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Unlock Your Potential with{" "}
-            <span className="text-blue-200">Learn</span>Hub
+            <span className="text-blue-200">Brain</span>Spark
           </h1>
           <p className="text-xl mb-8 text-blue-100 max-w-3xl mx-auto">
             Discover high-quality courses taught by industry experts. Enhance
@@ -241,7 +241,7 @@ const Home = () => {
           </h2>
           <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
             Join thousands of students who are already learning and growing with
-            LearnHub. Start your journey today!
+            BrainSpark. Start your journey today!
           </p>
           <div className="space-x-6">
             <Link

@@ -57,10 +57,10 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           <Link to="/" className="text-2xl font-bold flex items-center group">
             <span className="text-white group-hover:text-blue-200 transition-colors duration-300">
-              Learn
+              Brain
             </span>
             <span className="text-blue-200 group-hover:text-white transition-colors duration-300">
-              Hub
+              Spark
             </span>
           </Link>
 

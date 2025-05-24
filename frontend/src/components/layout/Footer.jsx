@@ -22,29 +22,19 @@ const Footer = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          {/* Logo and Company info */}
           <div className="md:col-span-1">
             <Link to="/" className="text-2xl font-bold flex items-center group">
               <span className="text-white group-hover:text-blue-300 transition-colors duration-300">
-                Learn
+                Brain
               </span>
               <span className="text-blue-400 group-hover:text-white transition-colors duration-300">
-                Hub
+                Spark
               </span>
             </Link>
             <p className="mt-4 text-gray-300 leading-relaxed">
               Empowering education through technology. Access quality courses
               from anywhere in the world.
             </p>
-            <div className="mt-6">
-              <a
-                href="#"
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
-                aria-label="Become an Instructor"
-              >
-                Become an Instructor
-              </a>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -132,10 +122,10 @@ const Footer = () => {
                   ></path>
                 </svg>
                 <a
-                  href="mailto:contact@learnhub.com"
+                  href="mailto:contact@brainspark.com"
                   className="group-hover:text-white transition-colors duration-300 hover:underline"
                 >
-                  contact@learnhub.com
+                  contact@brainspark.com
                 </a>
               </li>
               <li className="flex items-start group">
@@ -154,43 +144,20 @@ const Footer = () => {
                   ></path>
                 </svg>
                 <a
-                  href="tel:+12345678900"
+                  href="tel:+94771234567"
                   className="group-hover:text-white transition-colors duration-300 hover:underline"
                 >
-                  +1 234 567 8900
+                  +94771234567
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Newsletter Signup */}
-        <div className="mt-16 pt-8 border-t border-gray-700 max-w-3xl mx-auto text-center">
-          <h3 className="text-xl font-semibold mb-3">Stay Updated</h3>
-          <p className="text-gray-300 mb-5">
-            Subscribe to our newsletter for updates on new courses and features
-          </p>
-          <form className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-            <input
-              type="email"
-              placeholder="Your email address"
-              className="form-input bg-gray-800 border-gray-700 text-white focus:ring-blue-500 focus:border-blue-500 rounded-lg py-3 px-4 flex-grow shadow-inner"
-              aria-label="Your email address"
-            />
-            <button
-              type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1"
-              aria-label="Subscribe to newsletter"
-            >
-              Subscribe
-            </button>
-          </form>
-        </div>
-
         {/* Social Media & Copyright */}
         <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-300 text-sm">
-            &copy; {currentYear} LearnHub. All rights reserved.
+            &copy; {currentYear} BrainSpark. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-6 md:mt-0">
             <SocialIcon
