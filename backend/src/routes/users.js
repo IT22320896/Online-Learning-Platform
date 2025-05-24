@@ -31,6 +31,41 @@ router.get("/courses", authenticateUser, async (req, res) => {
 });
 
 /**
+ * Get user statistics (Admin only)
+ * @route GET /api/users/stats
+ * @access Private (Admin only)
+ */
+router.get(
+  "/stats",
+  authenticateUser,
+  authorizeRoles("admin"),
+  async (req, res) => {
+    try {
+      const total = await User.countDocuments();
+      const students = await User.countDocuments({ role: "student" });
+      const instructors = await User.countDocuments({ role: "instructor" });
+      const admins = await User.countDocuments({ role: "admin" });
+
+      res.status(200).json({
+        success: true,
+        data: {
+          total,
+          students,
+          instructors,
+          admins,
+        },
+      });
+    } catch (error) {
+      console.error("Get user stats error:", error);
+      res.status(500).json({
+        message: "Server error while fetching user statistics",
+        error: config.nodeEnv === "development" ? error.message : undefined,
+      });
+    }
+  }
+);
+
+/**
  * Get all users (Admin only)
  * @route GET /api/users
  * @access Private (Admin only)

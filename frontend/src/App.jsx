@@ -13,6 +13,7 @@ import CreateCourse from "./pages/CreateCourse";
 import EditCourse from "./pages/EditCourse";
 import EnrolledCourses from "./pages/EnrolledCourses";
 import CourseRecommendations from "./pages/CourseRecommendations";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import GuestRoute from "./components/routes/GuestRoute";
@@ -96,6 +97,15 @@ function App() {
                 element={
                   <PrivateRoute allowedRoles={["instructor", "admin"]}>
                     <EditCourse />
+                  </PrivateRoute>
+                }
+              />
+              {/* Admin routes */}
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <PrivateRoute allowedRoles="admin">
+                    <AdminDashboard />
                   </PrivateRoute>
                 }
               />

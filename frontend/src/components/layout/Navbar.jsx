@@ -55,7 +55,6 @@ const Navbar = () => {
     <nav className={navbarClasses}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
-          {/* Logo */}
           <Link to="/" className="text-2xl font-bold flex items-center group">
             <span className="text-white group-hover:text-blue-200 transition-colors duration-300">
               Learn
@@ -108,10 +107,15 @@ const Navbar = () => {
                 )}
 
                 {/* Instructor links */}
-                {hasRole(["instructor", "admin"]) && (
+                {hasRole("instructor") && (
                   <NavLink to="/instructor/dashboard">
                     Instructor Dashboard
                   </NavLink>
+                )}
+
+                {/* Admin links */}
+                {hasRole("admin") && (
+                  <NavLink to="/admin/dashboard">Admin Dashboard</NavLink>
                 )}
 
                 {/* User dropdown - Click based */}
@@ -166,7 +170,7 @@ const Navbar = () => {
                             >
                               <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4a1 1 0 011-1h4z" />
                             </svg>
-                            Dashboard
+                            Profile
                           </div>
                         </Link>
                         <button
@@ -245,12 +249,22 @@ const Navbar = () => {
                 )}
 
                 {/* Instructor links */}
-                {hasRole(["instructor", "admin"]) && (
+                {hasRole("instructor") && (
                   <MobileNavLink
                     to="/instructor/dashboard"
                     onClick={toggleMobileMenu}
                   >
                     Instructor Dashboard
+                  </MobileNavLink>
+                )}
+
+                {/* Admin links */}
+                {hasRole("admin") && (
+                  <MobileNavLink
+                    to="/admin/dashboard"
+                    onClick={toggleMobileMenu}
+                  >
+                    Admin Dashboard
                   </MobileNavLink>
                 )}
 

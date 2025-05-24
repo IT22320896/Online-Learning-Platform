@@ -77,7 +77,7 @@ const Dashboard = () => {
                   Get Course Recommendations
                 </Link>
               )}
-              {hasRole(["instructor", "admin"]) && (
+              {hasRole("instructor") && (
                 <Link
                   to="/instructor/dashboard"
                   className="btn-primary flex items-center"
@@ -261,7 +261,7 @@ const Dashboard = () => {
               </Link>
             )}
 
-            {hasRole(["instructor", "admin"]) && (
+            {hasRole("instructor") && (
               <Link
                 to="/instructor/create-course"
                 className="p-4 border rounded-lg hover:bg-gray-50 transition duration-200 flex items-center"
