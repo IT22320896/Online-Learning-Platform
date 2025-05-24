@@ -2,3 +2,250 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+@layer components {
+  .btn-primary {
+    background-color: #2563eb;
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+  .btn-primary:hover {
+    background-color: #1d4ed8;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .btn-secondary {
+    background-color: #e5e7eb;
+    color: #1f2937;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+  .btn-secondary:hover {
+    background-color: #d1d5db;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: box-shadow 0.3s;
+  }
+  .card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    color: #1f2937;
+    background-color: white;
+    transition: colors 0.2s;
+  }
+  .form-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+    border-color: transparent;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .badge-blue {
+    background-color: #dbeafe;
+    color: #1e40af;
+  }
+
+  .badge-green {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+
+  .badge-red {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+
+  .badge-yellow {
+    background-color: #fef9c3;
+    color: #854d0e;
+  }
+
+  .badge-purple {
+    background-color: #f3e8ff;
+    color: #6b21a8;
+  }
+
+  .page-title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-subtitle {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    color: #6b7280;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slideInRight {
+  animation: slideInFromRight 0.4s ease-out forwards;
+}
+
+.animate-slideInLeft {
+  animation: slideInFromLeft 0.4s ease-out forwards;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s infinite;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+h1 {
+  font-size: 2.5em;
+  line-height: 1.1;
+  color: #213547;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}

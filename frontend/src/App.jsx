@@ -11,6 +11,8 @@ import CourseDetails from "./pages/CourseDetails";
 import InstructorDashboard from "./pages/InstructorDashboard";
 import CreateCourse from "./pages/CreateCourse";
 import EditCourse from "./pages/EditCourse";
+import EnrolledCourses from "./pages/EnrolledCourses";
+import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -56,12 +58,35 @@ function App() {
                   </PrivateRoute>
                 }
               />
-
+              <Route
+                path="/enrolled-courses"
+                element={
+                  <PrivateRoute>
+                    <EnrolledCourses />
+                  </PrivateRoute>
+                }
+              />
               <Route
                 path="/instructor/dashboard"
                 element={
                   <PrivateRoute allowedRoles={["instructor", "admin"]}>
                     <InstructorDashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/instructor/create-course"
+                element={
+                  <PrivateRoute allowedRoles={["instructor", "admin"]}>
+                    <CreateCourse />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/instructor/edit-course/:id"
+                element={
+                  <PrivateRoute allowedRoles={["instructor", "admin"]}>
+                    <EditCourse />
                   </PrivateRoute>
                 }
               />
