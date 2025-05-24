@@ -26,6 +26,10 @@ const CoursesList = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  // Debounce search input
+  const [searchTimeout, setSearchTimeout] = useState(null);
+
+  // Fetch courses effect
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -64,17 +68,37 @@ const CoursesList = () => {
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
   }, [category, level, search, page, navigate, location.pathname]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setSearch(searchInput);
+  // Debounced search handler
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchInput(value);
+
+    // Clear previous timeout
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+
+    // Set a new timeout
+    const timeout = setTimeout(() => {
+      console.log("Searching for:", value);
+      setSearch(value);
+      setPage(1);
+    }, 500); // 500ms delay
+
+    setSearchTimeout(timeout);
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput("");
+    setSearch("");
     setPage(1);
   };
 
   const handleClearFilters = () => {
     setCategory("");
     setLevel("");
-    setSearch("");
     setSearchInput("");
+    setSearch("");
     setPage(1);
   };
 
@@ -92,22 +116,64 @@ const CoursesList = () => {
 
       {/* Search and Filters */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <form onSubmit={handleSearch} className="mb-6">
+        <div className="mb-6">
           <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-grow">
+            <div className="flex-grow relative">
               <input
                 type="text"
                 placeholder="Search for courses..."
-                className="form-input w-full"
+                className="form-input w-full pr-10"
                 value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
+                onChange={handleSearchChange}
               />
+              {searchInput && (
+                <button
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  onClick={handleClearSearch}
+                  type="button"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
-            <button type="submit" className="btn-primary md:w-auto">
-              Search
-            </button>
           </div>
-        </form>
+          {loading && (
+            <div className="text-sm text-blue-500 mt-2 flex items-center">
+              <svg
+                className="animate-spin -ml-1 mr-2 h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              Searching courses...
+            </div>
+          )}
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
@@ -165,7 +231,7 @@ const CoursesList = () => {
         </div>
       </div>
 
-      {loading ? (
+      {loading && !courses.length ? (
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
         </div>

@@ -23,18 +23,51 @@ exports.getAllCourses = async (req, res) => {
       query.level = level;
     }
 
+    // Handle search
     if (search && search.trim() !== "") {
-      // Use MongoDB text search for full text search capability
-      query.$text = { $search: search };
-    } else if (search && search.trim() !== "") {
-      // Fallback to regex search if text search fails
-      const searchRegex = new RegExp(search.trim(), "i");
-      query.$or = [
-        { title: searchRegex },
-        { description: searchRegex },
-        { category: searchRegex },
-        { tags: searchRegex },
-      ];
+      const searchTerm = search.trim();
+      console.log("Processing search term:", searchTerm);
+
+      try {
+        // First try MongoDB text search
+        query.$text = { $search: searchTerm };
+
+        // Only return published courses
+        query.isPublished = true;
+
+        console.log("Text search query:", JSON.stringify(query));
+
+        // Count using text search first
+        const textSearchCount = await Course.countDocuments(query);
+        console.log(`Text search found ${textSearchCount} results`);
+
+        if (textSearchCount === 0) {
+          // If no results with text search, fall back to regex
+          delete query.$text;
+
+          // Create regex search query
+          const searchRegex = new RegExp(searchTerm, "i");
+          query.$or = [
+            { title: searchRegex },
+            { description: searchRegex },
+            { category: searchRegex },
+            { tags: searchRegex },
+          ];
+
+          console.log("Falling back to regex search:", JSON.stringify(query));
+        }
+      } catch (error) {
+        console.error("Error with text search, using regex:", error);
+
+        // Fallback to regex search
+        const searchRegex = new RegExp(searchTerm, "i");
+        query.$or = [
+          { title: searchRegex },
+          { description: searchRegex },
+          { category: searchRegex },
+          { tags: searchRegex },
+        ];
+      }
     }
 
     // Only return published courses
