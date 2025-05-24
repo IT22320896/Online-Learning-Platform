@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthContext";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
@@ -39,14 +40,14 @@ const CourseDetails = () => {
   }, [id, user]);
 
   const handleEnroll = async () => {
-    if (!isAuthenticated) {
-      navigate("/login");
+    if (!user) {
+      toast.error("Please log in to enroll in this course");
       return;
     }
 
-    try {
-      setEnrolling(true);
+    setEnrolling(true);
 
+    try {
       const config = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -57,9 +58,13 @@ const CourseDetails = () => {
 
       setEnrolled(true);
       setEnrolling(false);
+      toast.success(`Successfully enrolled in "${course.title}"!`);
     } catch (error) {
       console.error("Error enrolling in course:", error);
-      setError("Failed to enroll in course");
+      const errorMessage =
+        error.response?.data?.message || "Failed to enroll in course";
+      setError(errorMessage);
+      toast.error(errorMessage);
       setEnrolling(false);
     }
   };

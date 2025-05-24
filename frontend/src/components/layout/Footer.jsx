@@ -103,7 +103,7 @@ const Footer = () => {
                   ></path>
                 </svg>
                 <span className="group-hover:text-white transition-colors duration-300">
-                  123 Education St, Learning City
+                  123 Main St, Colombo
                 </span>
               </li>
               <li className="flex items-start group">

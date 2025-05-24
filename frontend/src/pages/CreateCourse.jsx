@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 import ImageUploader from "../components/common/ImageUploader";
@@ -72,6 +73,19 @@ const CreateCourse = () => {
     setLoading(true);
     setError("");
 
+    // Validate required fields
+    if (
+      !formData.title ||
+      !formData.description ||
+      !formData.content ||
+      !formData.category
+    ) {
+      setError("Please fill in all required fields");
+      setLoading(false);
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
     try {
       console.log("Submitting course with data:", formData);
       console.log("Thumbnail URL being sent:", formData.thumbnail);
@@ -85,13 +99,15 @@ const CreateCourse = () => {
 
       const response = await axios.post(`${API_URL}/courses`, formData, config);
 
+      toast.success(`Course "${formData.title}" created successfully!`);
       navigate(`/instructor/dashboard`);
     } catch (error) {
       console.error("Create course error:", error);
-      setError(
+      const errorMessage =
         error.response?.data?.message ||
-          "Error creating course. Please try again."
-      );
+        "Error creating course. Please try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

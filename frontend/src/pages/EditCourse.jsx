@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthContext";
 import ImageUploader from "../components/common/ImageUploader";
 
@@ -55,7 +56,9 @@ const EditCourse = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching course:", error);
-        setError("Failed to load course data. Please try again.");
+        const errorMessage = "Failed to load course data. Please try again.";
+        setError(errorMessage);
+        toast.error(errorMessage);
         setLoading(false);
       }
     };
@@ -115,15 +118,18 @@ const EditCourse = () => {
 
       await axios.put(`${API_URL}/courses/${id}`, formData, config);
 
-      setSuccess("Course updated successfully!");
+      const successMessage = "Course updated successfully!";
+      setSuccess(successMessage);
+      toast.success(successMessage);
       setSaving(false);
       navigate(`/instructor/dashboard`);
     } catch (error) {
       console.error("Error updating course:", error);
-      setError(
+      const errorMessage =
         error.response?.data?.message ||
-          "Failed to update course. Please try again."
-      );
+        "Failed to update course. Please try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
       setSaving(false);
     }
   };
@@ -146,13 +152,15 @@ const EditCourse = () => {
 
       await axios.delete(`${API_URL}/courses/${id}`, config);
 
+      toast.success("Course deleted successfully");
       navigate("/instructor/dashboard");
     } catch (error) {
       console.error("Error deleting course:", error);
-      setError(
+      const errorMessage =
         error.response?.data?.message ||
-          "Failed to delete course. Please try again."
-      );
+        "Failed to delete course. Please try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
