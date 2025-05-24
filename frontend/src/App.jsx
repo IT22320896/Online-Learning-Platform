@@ -12,6 +12,7 @@ import InstructorDashboard from "./pages/InstructorDashboard";
 import CreateCourse from "./pages/CreateCourse";
 import EditCourse from "./pages/EditCourse";
 import EnrolledCourses from "./pages/EnrolledCourses";
+import CourseRecommendations from "./pages/CourseRecommendations";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import GuestRoute from "./components/routes/GuestRoute";
@@ -63,6 +64,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <EnrolledCourses />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/recommendations"
+                element={
+                  <PrivateRoute>
+                    <CourseRecommendations />
                   </PrivateRoute>
                 }
               />
